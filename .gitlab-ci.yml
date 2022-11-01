@@ -1,0 +1,4 @@
+include:
+  - project: kkowa/ci-templates
+    ref: main
+    file: /templates/application.gitlab-ci.yml

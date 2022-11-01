@@ -1,0 +1,54 @@
+version: "3"
+
+services:
+  crawler:
+    image: localhost:5000/kkowa/apps/crawler:local
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: development
+    volumes:
+      - .:/var/app:z
+    environment:
+      ENVIRONMENT: "local"
+      SELENIUM_HUB_URL: "http://selenium-hub:4444"
+    ports:
+      - 50051:50051
+    command: air
+
+  # ==========================================================================
+  # Selenium Grid
+  # ==========================================================================
+  selenium-hub:
+    image: selenium/hub:4.1
+    ports:
+      - 4442:4442
+      - 4443:4443
+      - 4444:4444
+
+  # Web Drivers
+  # ------------------------------------------------------------------------
+  chrome:
+    image: selenium/node-chrome:98.0-chromedriver-98.0
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      SE_EVENT_BUS_HOST: "selenium-hub"
+      SE_EVENT_BUS_PUBLISH_PORT: "4442"
+      SE_EVENT_BUS_SUBSCRIBE_PORT: "4443"
+    ports:
+      - 5900:5900
+      - 7900:7900
+
+  # Video recording for webdrivers
+  # ------------------------------------------------------------------------
+  chrome-video:
+    image: selenium/video:ffmpeg-4.3.1-20220217
+    depends_on:
+      - chrome
+    volumes:
+      - ${PWD}/selenium/videos:/videos
+    environment:
+      DISPLAY_CONTAINER_NAME: "chrome"
+      FILE_NAME: "chrome.mp4"

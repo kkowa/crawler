@@ -1,0 +1,18 @@
+**
+
+# Allowed things
+# Can't use '!idl/grpc/**/*.go' or '!idl/grpc/*/*.go' due to bug: https://github.com/moby/moby/issues/30018
+!config/**
+!idl/grpc/helloworld/*.go
+!scripts/**
+!main.go
+!go.mod
+!go.sum
+
+# Extra exclude from allowed things
+**/*~
+**/*.log
+**/.DS_Store
+**/Thumbs.db
+**/*.md
+**/*.rst

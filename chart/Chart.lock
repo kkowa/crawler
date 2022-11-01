@@ -1,0 +1,6 @@
+dependencies:
+- name: selenium-grid
+  repository: https://www.selenium.dev/docker-selenium
+  version: 0.9.0
+digest: sha256:0607421f7ff6ed0c539e437c83e15762be924408a578e7f9aa0651911c357c1e
+generated: "2022-08-23T22:56:17.648809759+09:00"

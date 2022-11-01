@@ -1,0 +1,35 @@
+exclude: ".git|.devcontainer|.vscode|idl"
+default_stages: [commit]
+fail_fast: true
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        exclude: ^chart/templates
+      - id: check-toml
+
+  - repo: https://github.com/sirosen/check-jsonschema
+    rev: 0.18.3
+    hooks:
+      - id: check-jsonschema
+        files: chart/values.yaml
+        args: ["--schemafile", "./chart/values.schema.json"]
+
+  - repo: local
+    hooks:
+      - id: golangci-lint
+        name: Lint with golangci-lint
+        language: system
+        types: [go]
+        entry: golangci-lint run
+        args: [--fix]
+
+      - id: go-test
+        name: Run tests
+        language: system
+        types: [go]
+        pass_filenames: false
+        entry: go test

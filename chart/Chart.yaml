@@ -1,0 +1,11 @@
+apiVersion: v2
+name: kkowa-crawler
+version: "0.1.0"
+description: Application chart for crawler component of kkowa.
+type: application
+appVersion: "0.1.0"
+dependencies:
+  - name: selenium-grid
+    repository: "https://www.selenium.dev/docker-selenium"
+    version: "0.9.0"
+    condition: selenium-grid.enabled
