@@ -48,7 +48,7 @@ services:
     depends_on:
       - chrome
     volumes:
-      - ${PWD}/selenium/videos:/videos
+      - ./selenium/videos:/videos
     environment:
       DISPLAY_CONTAINER_NAME: "chrome"
       FILE_NAME: "chrome.mp4"
