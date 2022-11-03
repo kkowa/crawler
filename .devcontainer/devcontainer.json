@@ -1,16 +1,13 @@
 {
-  "name": "crawler",
+  "name": "kkowa/crawler",
   "dockerComposeFile": [
     "../docker-compose.yml",
     "./override.yml"
   ],
   "runServices": [
-    "crawler",
-    "selenium-hub",
-    "chrome"
-    // "chrome-video",  // Run video recorder containers manually to prevent resource depletion
+    "app"
   ],
-  "service": "crawler",
+  "service": "app",
   "overrideCommand": true,
   "initializeCommand": "sh ./.devcontainer/initializeCommand.sh",
   "onCreateCommand": "sh ./.devcontainer/onCreateCommand.sh",

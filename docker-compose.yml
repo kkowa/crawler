@@ -1,8 +1,8 @@
 version: "3"
 
 services:
-  crawler:
-    image: localhost:5000/kkowa/apps/crawler:local
+  app:
+    image: localhost:5000/kkowa/crawler:local
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -20,7 +20,7 @@ services:
   # Selenium Grid
   # ==========================================================================
   selenium-hub:
-    image: selenium/hub:4.1
+    image: selenium/hub:4
     ports:
       - 4442:4442
       - 4443:4443
@@ -29,7 +29,7 @@ services:
   # Web Drivers
   # ------------------------------------------------------------------------
   chrome:
-    image: selenium/node-chrome:98.0-chromedriver-98.0
+    image: selenium/node-chrome:4
     shm_size: 2gb
     depends_on:
       - selenium-hub
@@ -44,7 +44,7 @@ services:
   # Video recording for webdrivers
   # ------------------------------------------------------------------------
   chrome-video:
-    image: selenium/video:ffmpeg-4.3.1-20220217
+    image: selenium/video:ffmpeg-4.3.1-20221024
     depends_on:
       - chrome
     volumes:
