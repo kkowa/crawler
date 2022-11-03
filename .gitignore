@@ -1,5 +1,6 @@
 ### Project Defs ###
 
+.bin/
 coverage.txt
 coverage.xml
 report.xml

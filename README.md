@@ -46,7 +46,7 @@ Not essential, but recommended:
 
 Follow next for local development setup:
 
-1. Run `make install`
+1. Run `make install`. Some additional dev-tools will be downloaded to **.bin** directory.
 
 1. Run `make init`
 

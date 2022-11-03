@@ -12,6 +12,9 @@ SHELL := bash
 help: Makefile
 	@grep -E '(^[a-zA-Z_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
+LOCBIN := ${PWD}/.bin
+PATH := ${PATH}:${LOCBIN}
+
 
 # =============================================================================
 # Common
@@ -22,17 +25,18 @@ GOLANGCI_LINT_VERSION := $(shell sed -nE 's/ARG GOLANGCI_LINT_VERSION=\"(.+)\"/\
 install:  ## Install the app and required tools locally
 	command -v goenv > /dev/null && goenv install --skip-existing "$$(goenv local)"
 
-	! command -v protoc > /dev/null && \
-		zipfile="protoc-${PROTOC_VERSION}-$$(uname -s)-$$(uname -m).zip" \
+	if ! command -v protoc > /dev/null; then
+		zipfile="protoc-${PROTOC_VERSION}-$$(uname -s)-$$(uname -m).zip"
 		curl -fsSL -O "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/$${zipfile}" \
-			&& unzip -n "$${zipfile}" bin/protoc -d "$$(go env GOPATH)/" \
+			&& unzip -nj "$${zipfile}" bin/protoc -d "${LOCBIN}" \
 			&& rm $${zipfile}
+	fi
 
 	! command -v golangci-lint > /dev/null && \
-		curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$$(go env GOPATH)/bin" ${GOLANGCI_LINT_VERSION}
+		curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "${LOCBIN}" "${GOLANGCI_LINT_VERSION}"
 
 	! command -v air > /dev/null && \
-		curl -fsSL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | sh -s -- -b "$$(go env GOPATH)/bin"
+		curl -fsSL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | sh -s -- -b "${LOCBIN}"
 
 	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
