@@ -64,6 +64,8 @@ FROM base AS development
 
 ARG GO_VERSION
 
+ARG PROTOC_VERSION="3.15.8"
+
 ENV GOBIN="/usr/local/go/bin"
 ENV PATH="${GOBIN}:${PATH}"
 
@@ -75,7 +77,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     make \
     pkg-config \
     python3-pip \
-    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+    unzip \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Golang
@@ -84,6 +86,10 @@ RUN curl -fsSL https://dl.google.com/go/go${GO_VERSION}.linux-$(dpkg --print-arc
 
 # Install pre-commit
 RUN pip3 install --no-cache-dir --upgrade pip && pip install --no-cache-dir pre-commit
+
+# Download protoc
+RUN curl -fsSL -O "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-$(uname -s)-$(uname -m).zip" \
+    && unzip "protoc-${PROTOC_VERSION}-$(uname -s)-$(uname -m).zip" -d /usr/local/
 
 # Install golangci-lint
 RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \

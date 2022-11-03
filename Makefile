@@ -37,6 +37,17 @@ run:  ## Run development server
 ci: lint test scan  ## Run CI tasks
 .PHONY: ci
 
+generate:  ## Generate codes from schemas
+	mkdir -p _generated/grpc
+	protoc \
+		--proto_path=idl/grpc/protos \
+		--go-grpc_opt=paths=source_relative \
+		--go-grpc_out=_generated/grpc \
+		--go_opt=paths=source_relative \
+		--go_out=_generated/grpc \
+		idl/grpc/protos/helloworld/*.proto
+.PHONY: generate
+
 format:  ## Run autoformatters
 	golangci-lint run --fix --verbose
 .PHONY: format

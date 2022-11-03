@@ -1,4 +1,4 @@
-module gitlab.com/kkowa/apps/crawler
+module github.com/kkowa/crawler
 
 go 1.19
 

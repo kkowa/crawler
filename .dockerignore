@@ -2,8 +2,8 @@
 
 # Allowed things
 # Can't use '!idl/grpc/**/*.go' or '!idl/grpc/*/*.go' due to bug: https://github.com/moby/moby/issues/30018
+!_generated/**
 !config/**
-!idl/grpc/helloworld/*.go
 !scripts/**
 !main.go
 !go.mod

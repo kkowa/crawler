@@ -7,7 +7,7 @@ import (
 	"net"
 	"os"
 
-	pb "gitlab.com/kkowa/apps/crawler/idl/grpc/helloworld"
+	pb "github.com/kkowa/crawler/_generated/grpc/helloworld"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
 	"google.golang.org/grpc/health/grpc_health_v1"
