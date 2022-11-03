@@ -16,7 +16,28 @@ help: Makefile
 # =============================================================================
 # Common
 # =============================================================================
-install:  ## Install the app locally
+PROTOC_VERSION := $(shell sed -nE 's/ARG PROTOC_VERSION=\"(.+)\"/\1/p' Dockerfile)
+GOLANGCI_LINT_VERSION := $(shell sed -nE 's/ARG GOLANGCI_LINT_VERSION=\"(.+)\"/\1/p' Dockerfile)
+
+install:  ## Install the app and required tools locally
+	command -v goenv > /dev/null && goenv install --skip-existing "$$(goenv local)"
+
+	! command -v protoc > /dev/null && \
+		zipfile="protoc-${PROTOC_VERSION}-$$(uname -s)-$$(uname -m).zip" \
+		curl -fsSL -O "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/$${zipfile}" \
+			&& unzip -n "$${zipfile}" bin/protoc -d "$$(go env GOPATH)/" \
+			&& rm $${zipfile}
+
+	! command -v golangci-lint > /dev/null && \
+		curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$$(go env GOPATH)/bin" ${GOLANGCI_LINT_VERSION}
+
+	! command -v air > /dev/null && \
+		curl -fsSL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | sh -s -- -b "$$(go env GOPATH)/bin"
+
+	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+	go install gotest.tools/gotestsum@latest
+	go install github.com/t-yuki/gocover-cobertura@latest
 	go mod download
 .PHONY: install
 
@@ -37,6 +58,17 @@ run:  ## Run development server
 ci: lint test scan  ## Run CI tasks
 .PHONY: ci
 
+generate:  ## Generate codes from schemas
+	mkdir -p _generated/grpc
+	protoc \
+		--proto_path=idl/grpc/protos \
+		--go-grpc_opt=paths=source_relative \
+		--go-grpc_out=_generated/grpc \
+		--go_opt=paths=source_relative \
+		--go_out=_generated/grpc \
+		idl/grpc/protos/helloworld/*.proto
+.PHONY: generate
+
 format:  ## Run autoformatters
 	golangci-lint run --fix --verbose
 .PHONY: format
@@ -50,10 +82,6 @@ test:  ## Run tests
 	gocover-cobertura < coverage.txt > coverage.xml
 	sed -i "s;filename=\"$$(cat go.mod | grep 'module' | cut -f2 -d ' ')/;filename=\";g" coverage.xml
 .PHONY: test
-
-benchmark:  ## Run benchmarks
-
-.PHONY: benchmark
 
 scan:  ## Run all scans
 

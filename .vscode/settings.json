@@ -3,9 +3,6 @@
   "files.associations": {
     "**/requirements{/**,*}.{txt,in}": "pip-requirements",
     ".devcontainer/override.yml": "dockercompose",
-    "**/chart/templates/{**,*}.{yaml,yml,tpl}": "helm",
-    "**/chart/templates/NOTES.txt": "helm",
-    "**/chart/*.yaml": "yaml",
   },
   "files.insertFinalNewline": true,
   //
@@ -17,12 +14,6 @@
   },
   "go.formatTool": "default",
   "yaml.format.enable": true,
-  "yaml.schemas": {
-    "chart/values.schema.json": "chart/values.yaml"
-  },
-  "[helm]": {
-    "editor.formatOnSave": false,
-  },
   //
   // Linting
   // ------------------------------------------------------------------------
