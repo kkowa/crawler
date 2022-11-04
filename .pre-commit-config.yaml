@@ -27,8 +27,12 @@ repos:
         name: Lint with golangci-lint
         language: system
         types: [go]
-        entry: golangci-lint run
-        args: [--fix]
+        pass_filenames: false
+        entry: sh
+        args:
+          - -c
+          - |
+            PATH="${PATH}:${PWD}/.bin" golangci-lint run --fix
 
       - id: go-test
         name: Run tests
