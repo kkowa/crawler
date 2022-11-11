@@ -40,8 +40,6 @@ install:  ## Install the app and required tools locally
 
 	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
-	go install gotest.tools/gotestsum@latest
-	go install github.com/t-yuki/gocover-cobertura@latest
 	go mod download
 .PHONY: install
 
@@ -82,9 +80,9 @@ lint:  ## Run all linters
 .PHONY: lint
 
 test:  ## Run tests
-	gotestsum --junitfile report.xml --format testname -- -coverprofile coverage.txt -covermode count .
-	gocover-cobertura < coverage.txt > coverage.xml
-	sed -i "s;filename=\"$$(cat go.mod | grep 'module' | cut -f2 -d ' ')/;filename=\";g" coverage.xml
+	go test -race -coverprofile=coverage.txt -covermode=atomic
+	go tool cover -html=coverage.txt -o ./coverage.html
+	rm coverage.txt
 .PHONY: test
 
 scan:  ## Run all scans
@@ -96,6 +94,6 @@ scan:  ## Run all scans
 # Handy Scripts
 # =============================================================================
 clean:  ## Remove temporary files
-	rm -rf .tmp/ coverage.txt coverage.xml report.xml
+	rm -rf .tmp/ coverage.{txt,xml,html} report.xml
 	find . -path "*.log*" -delete
 .PHONY: clean
