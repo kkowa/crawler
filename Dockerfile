@@ -99,10 +99,6 @@ RUN curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/i
 # Install Air for hot reloading
 RUN curl -fsSL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | sh -s -- -b "${GOBIN}"
 
-# Other go tools for CI (testing, linting, report conversion, etc.)
-RUN go install gotest.tools/gotestsum@latest \
-    && go install github.com/t-yuki/gocover-cobertura@latest
-
 COPY --from=build --chown=worker:worker --chmod=755 /tmp/build/app /usr/local/bin/app
 
 # Copy script files to executable path

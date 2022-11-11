@@ -3,6 +3,7 @@
 .bin/
 coverage.txt
 coverage.xml
+coverage.html
 report.xml
 
 *.log
