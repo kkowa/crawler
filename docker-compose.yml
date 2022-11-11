@@ -7,6 +7,9 @@ services:
       context: .
       dockerfile: ./Dockerfile
       target: development
+    depends_on:
+      - selenium-hub
+      - chrome
     volumes:
       - .:/var/app:z
     environment:
