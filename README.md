@@ -1,6 +1,9 @@
-# kkowa/crawler
+# crawler
 
-Crawler component for kkowa. Currently this project has no name.
+[![Build and Push](https://github.com/kkowa/crawler/actions/workflows/build-and-push.yml/badge.svg)](https://github.com/kkowa/crawler/actions/workflows/build-and-push.yml)
+[![codecov](https://codecov.io/gh/kkowa/crawler/branch/main/graph/badge.svg?token=12NHJIKP4I)](https://codecov.io/gh/kkowa/crawler)
+
+Crawler component for kkowa.
 
 ## 🧰 Tech Stack
 
