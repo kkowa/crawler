@@ -1,6 +1,6 @@
 # crawler
 
-[![Build and Push](https://github.com/kkowa/crawler/actions/workflows/build-and-push.yml/badge.svg)](https://github.com/kkowa/crawler/actions/workflows/build-and-push.yml)
+[![CI](https://github.com/kkowa/crawler/actions/workflows/ci.yml/badge.svg)](https://github.com/kkowa/crawler/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/kkowa/crawler/branch/main/graph/badge.svg?token=12NHJIKP4I)](https://codecov.io/gh/kkowa/crawler)
 
 Crawler component for kkowa.
