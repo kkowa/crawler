@@ -17,6 +17,7 @@ services:
       SELENIUM_HUB_URL: "http://selenium-hub:4444"
     ports:
       - 50051:50051
+    init: true
     command: air
 
   # ==========================================================================
