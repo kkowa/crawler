@@ -55,7 +55,7 @@ HEALTHCHECK --interval=10s --timeout=5s --start-period=10s --retries=5 \
     CMD ["grpc_health_probe", "-addr", "localhost:50051"]
 
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["start.sh"]
+CMD ["app"]
 
 # =============================================================================
 # Environment: Development
@@ -102,7 +102,7 @@ RUN curl -fsSL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh 
 COPY --from=build --chown=worker:worker --chmod=755 /tmp/build/app /usr/local/bin/app
 
 # Copy script files to executable path
-COPY --chown=worker:worker --chmod=755 ./scripts/* /usr/local/bin/
+COPY --chown=worker:worker --chmod=755 ./scripts/docker-entrypoint.sh /usr/local/bin/
 
 USER worker:worker
 
@@ -114,6 +114,6 @@ FROM base AS production
 COPY --from=build --chown=worker:worker --chmod=755 /tmp/build/app /usr/local/bin/app
 
 # Copy script files to executable path
-COPY --chown=worker:worker --chmod=755 ./scripts/* /usr/local/bin/
+COPY --chown=worker:worker --chmod=755 ./scripts/docker-entrypoint.sh /usr/local/bin/
 
 USER worker:worker
